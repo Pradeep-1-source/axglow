@@ -18,8 +18,8 @@ export const NewHero: React.FC<NewHeroProps> = ({ onOpenContact, onSwitchToOrigi
   const particleCanvasRef = useRef<HTMLCanvasElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadProgress, setLoadProgress] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [_loadProgress, setLoadProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [activeTab, setActiveTab] = useState<'branding' | 'digital' | 'production'>('branding');
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -218,28 +218,6 @@ export const NewHero: React.FC<NewHeroProps> = ({ onOpenContact, onSwitchToOrigi
       onMouseMove={handleMouseMove}
       className="relative w-full h-screen overflow-hidden bg-black select-none"
     >
-      {/* Loading Overlay */}
-      {isLoading && (
-        <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#050505] text-white">
-          <div className="relative mb-6">
-            <div className="w-16 h-16 rounded-full border-2 border-[#3BD8D9]/30 border-t-[#3BD8D9] animate-spin" />
-            <img
-              src="/aglowx-logo.png"
-              alt="AglowX"
-              className="absolute inset-0 m-auto h-8 w-auto object-contain filter drop-shadow-[0_0_15px_rgba(59,216,217,0.9)]"
-            />
-          </div>
-          <div className="w-64 h-1.5 bg-white/10 rounded-full overflow-hidden mb-3">
-            <div
-              className="h-full bg-gradient-to-r from-[#3BD8D9] to-[#8A46BB] transition-all duration-150 shadow-[0_0_12px_#3BD8D9]"
-              style={{ width: `${loadProgress}%` }}
-            />
-          </div>
-          <span className="font-mono text-xs text-white/60 tracking-widest uppercase">
-            INITIALIZING NEW INTERACTIVE EXPERIENCE {loadProgress}%
-          </span>
-        </div>
-      )}
 
       {/* Frame Canvas Sequence */}
       <canvas

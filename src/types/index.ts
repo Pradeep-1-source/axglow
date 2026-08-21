@@ -8,6 +8,7 @@ export interface ServiceItem {
   gradient: string;
   accentColor: string;
   illustrationType: 'branding' | 'web' | 'uiux' | 'video' | 'marketing';
+  image?: string;
 }
 
 export interface PortfolioProject {

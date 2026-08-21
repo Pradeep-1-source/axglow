@@ -12,12 +12,12 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
   };
 
   return (
-    <footer className="relative bg-[#08292c]/60 backdrop-blur-md text-white pt-24 pb-12 px-6 md:px-12 border-t border-white/10 overflow-hidden">
-      {/* Background Glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-[#3BD8D9]/10 rounded-full blur-[200px] pointer-events-none" />
+    <footer className="relative bg-[#05181a]/90 backdrop-blur-md text-white border-t border-white/10 py-16 overflow-hidden">
+      {/* Subtle Cyan Ambient Glow */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[300px] bg-[#3BD8D9]/10 rounded-full blur-[180px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-20 border-b border-white/10">
+      <div className="max-w-7xl mx-auto relative z-10 px-6 md:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-12 border-b border-white/10">
           {/* Left Column: Brand & Tagline */}
           <div className="lg:col-span-5 space-y-6">
             <a href="#home" className="inline-flex items-center gap-4 group">
@@ -107,15 +107,8 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
           </div>
         </div>
 
-        {/* Massive Typography Backdrop Graphic */}
-        <div className="py-12 text-center border-b border-white/5 overflow-hidden">
-          <span className="font-display text-[12vw] font-black leading-none text-transparent text-stroke-cyan opacity-20 uppercase tracking-tighter block select-none">
-            AGLOWX
-          </span>
-        </div>
-
         {/* Bottom Legal & Copyright */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-white/40 gap-4">
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-white/40 gap-4">
           <p>© {new Date().getFullYear()} AglowX Creative Agency. All Rights Reserved.</p>
           <div className="flex gap-6">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
@@ -127,3 +120,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
     </footer>
   );
 };
+
+export default Footer;
+

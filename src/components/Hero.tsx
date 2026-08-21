@@ -21,8 +21,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact }) => {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadProgress, setLoadProgress] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [_loadProgress, setLoadProgress] = useState(0);
 
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const currentFrameRef = useRef(0);
@@ -145,25 +145,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact }) => {
       ref={containerRef}
       className="relative w-full h-screen overflow-hidden bg-black"
     >
-      {/* Preloading Progress Screen */}
-      {isLoading && (
-        <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-[#050505] text-white">
-          <img
-            src="/aglowx-logo.png"
-            alt="AglowX"
-            className="h-16 w-auto mb-6 object-contain filter drop-shadow-[0_0_20px_rgba(59,216,217,0.8)] animate-pulse"
-          />
-          <div className="w-64 h-1 bg-white/10 rounded-full overflow-hidden mb-3">
-            <div
-              className="h-full bg-[#3BD8D9] transition-all duration-150 shadow-[0_0_10px_#3BD8D9]"
-              style={{ width: `${loadProgress}%` }}
-            />
-          </div>
-          <span className="font-mono text-xs text-white/50 tracking-widest uppercase">
-            LOADING EXPERIENCE {loadProgress}%
-          </span>
-        </div>
-      )}
 
       {/* HTML5 Fullscreen Canvas for HD Image Sequence */}
       <canvas

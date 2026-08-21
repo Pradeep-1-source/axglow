@@ -11,6 +11,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     gradient: 'from-[#3BD8D9]/20 via-[#8A46BB]/10 to-transparent',
     accentColor: '#3BD8D9',
     illustrationType: 'branding',
+    image: '/services/brand-identity.png',
   },
   {
     id: 'web-design-dev',
@@ -22,6 +23,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     gradient: 'from-[#8A46BB]/25 via-[#3BD8D9]/10 to-transparent',
     accentColor: '#8A46BB',
     illustrationType: 'web',
+    image: '/services/web-design.png',
   },
   {
     id: 'ui-ux-design',
@@ -33,6 +35,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     gradient: 'from-[#FF5D93]/20 via-[#3BD8D9]/15 to-transparent',
     accentColor: '#FF5D93',
     illustrationType: 'uiux',
+    image: '/services/ui-ux.png',
   },
   {
     id: 'video-multimedia',
@@ -44,6 +47,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     gradient: 'from-[#3BD8D9]/20 via-[#FF5D93]/15 to-transparent',
     accentColor: '#3BD8D9',
     illustrationType: 'video',
+    image: '/services/video-editing.png',
   },
   {
     id: 'digital-marketing',
@@ -55,6 +59,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     gradient: 'from-[#8A46BB]/20 via-[#FF5D93]/20 to-transparent',
     accentColor: '#8A46BB',
     illustrationType: 'marketing',
+    image: '/services/digital-marketing.png',
   },
 ];
 
@@ -158,42 +163,42 @@ export const PROCESS_STEPS: ProcessStep[] = [
   {
     step: '01',
     title: 'Discover',
-    subtitle: 'Deep Brand Immersion & Audit',
+    subtitle: 'DEEP BRAND IMMERSION & AUDIT',
     description: 'We deconstruct your market footprint, brand ethos, competitors, and aspirations. We listen, analyze data, and uncover the core catalyst that sets your brand apart.',
     deliverables: ['Brand Essence Blueprint', 'Competitive Landscape Matrix', 'Audience Psychology Map']
   },
   {
     step: '02',
     title: 'Research',
-    subtitle: 'Market Intelligence & Technical Scoping',
+    subtitle: 'MARKET INTELLIGENCE & TECHNICAL SCOPING',
     description: 'Synthesizing creative direction with emerging technology trends, interactive possibilities, and user behavioral science to establish a bulletproof execution plan.',
     deliverables: ['Creative Direction Concepts', 'Technical Architecture Stack', 'Interactive Moodboards']
   },
   {
     step: '03',
-    title: 'Strategy',
-    subtitle: 'Bespoke Brand & Digital Roadmap',
-    description: 'Architecting the user journey, visual identity matrix, interaction language, and content narrative into a cohesive, high-impact strategic blueprint.',
+    title: 'Strategize',
+    subtitle: 'CREATIVE STRATEGY & DIRECTION',
+    description: 'We craft a tailored strategy that aligns creativity with business goals. A clear roadmap that guides every creative decision with purpose.',
     deliverables: ['Full Experience Wireframes', 'Content Architecture', 'Motion & Interaction Spec']
   },
   {
     step: '04',
     title: 'Design',
-    subtitle: 'Aesthetic Mastery & Prototype Motion',
-    description: 'Crafting pixel-perfect interface visuals, bespoke typography, 3D elements, and interactive high-fidelity prototypes that leave a lasting impression.',
+    subtitle: 'VISUAL IDENTITY & BRAND EXPERIENCE',
+    description: 'We translate strategy into stunning visuals and engaging experiences that resonate deeply with your audience.',
     deliverables: ['High-Fidelity Interface System', '3D Visual Assets & Icons', 'Interactive Prototype']
   },
   {
     step: '05',
     title: 'Develop',
-    subtitle: '60 FPS Frontend Engineering & Shaders',
-    description: 'Transforming approved designs into lightning-fast, ultra-smooth code using modern React, GSAP animations, Lenis scroll integration, and WebGL lighting.',
+    subtitle: 'FLAWLESS EXECUTION & BUILD',
+    description: 'Pixel-perfect development across all platforms. Fast, responsive, and optimized for performance that elevates user experience.',
     deliverables: ['Production-Grade React Build', 'Smooth Motion Controls', 'Cross-Device Responsiveness']
   },
   {
     step: '06',
     title: 'Launch',
-    subtitle: 'Global Deployment & Ongoing Supremacy',
+    subtitle: 'GLOBAL DEPLOYMENT & ONGOING SUPREMACY',
     description: 'Orchestrating a flawless digital launch, performance optimization, global CDN distribution, and continuous creative elevation to keep your brand rising.',
     deliverables: ['SEO & Performance Tuning', 'Global CDN Deployment', 'Post-Launch Analytics & Support']
   }
@@ -203,37 +208,44 @@ export const WHY_CHOOSE_US_ITEMS = [
   {
     title: 'Premium Design',
     desc: 'Uncompromising luxury aesthetics engineered to command high-end market presence.',
-    iconName: 'Crown'
+    iconName: 'Crown',
+    image: '/services/brand-identity.png'
   },
   {
     title: 'Custom Strategy',
     desc: 'Bespoke roadmaps built around your unique market advantages, never generic templates.',
-    iconName: 'Compass'
+    iconName: 'Compass',
+    image: '/services/why-strategy.png'
   },
   {
     title: 'Responsive Development',
     desc: 'Flawless 60 FPS performance across desktop screens, tablets, and mobile displays.',
-    iconName: 'Cpu'
+    iconName: 'Cpu',
+    image: '/services/web-design.png'
   },
   {
     title: 'Creative Branding',
     desc: 'Memorable brand identity visual systems that resonate with global audiences.',
-    iconName: 'Sparkles'
+    iconName: 'Sparkles',
+    image: '/philosophy.png'
   },
   {
     title: 'Video Production',
     desc: 'Cinematic brand films, motion graphics, and high-impact commercial visual effects.',
-    iconName: 'Video'
+    iconName: 'Video',
+    image: '/services/video-editing.png'
   },
   {
     title: 'Digital Marketing',
     desc: 'Precision target acquisition campaigns that drive high-value client conversion.',
-    iconName: 'TrendingUp'
+    iconName: 'TrendingUp',
+    image: '/services/digital-marketing.png'
   },
   {
     title: 'Collaborative Workflow',
     desc: 'Transparent executive communication, rapid iteration sprints, and dedicated stewardship.',
-    iconName: 'Users'
+    iconName: 'Users',
+    image: '/services/why-collaboration.png'
   }
 ];
 
