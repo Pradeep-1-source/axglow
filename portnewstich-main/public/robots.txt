@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /assets/footer-
+
+# Exclude system folders
+Disallow: /node_modules/
+
+Sitemap: https://bhuvaneshv.in/sitemap.xml

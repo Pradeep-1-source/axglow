@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <!-- Core Landing Pages -->
+  <url>
+    <loc>https://bhuvaneshv.in/</loc>
+    <lastmod>2026-07-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://bhuvaneshv.in/portfolio.png</image:loc>
+      <image:title>Bhuvanesh V - Official Profile Portrait</image:title>
+      <image:caption>Official profile image of Bhuvanesh V, AI Engineer and Full Stack Developer</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://bhuvaneshv.in/certifications</loc>
+    <lastmod>2026-07-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>
