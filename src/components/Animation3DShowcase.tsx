@@ -1,5 +1,5 @@
 import { SpotlightLens3D, Wheel3DCarousel } from './animations';
-import { Eye, Layers, Sparkles, ArrowRight } from 'lucide-react';
+import { Sparkles, ArrowRight } from 'lucide-react';
 
 const servicesList = [
   {

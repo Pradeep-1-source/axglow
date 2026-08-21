@@ -11,7 +11,7 @@ interface ServicesProps {
 }
 
 // 3D Soft-Clay Animated Graphic Component
-const SoftClayGraphic: React.FC<{ type: string; color: string }> = ({ type, color }) => {
+export const SoftClayGraphic: React.FC<{ type: string; color: string }> = ({ type, color }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -23,8 +23,15 @@ const SoftClayGraphic: React.FC<{ type: string; color: string }> = ({ type, colo
 
     const elements = container.querySelectorAll('.clay-element');
     elements.forEach((el, index) => {
-      const depth = (index + 1) * 18;
-      (el as HTMLElement).style.transform = `translate3d(${x * depth}px, ${y * depth}px, ${depth}px) rotateX(${-y * 25}deg) rotateY(${x * 25}deg)`;
+      const depth = (index + 1) * 15;
+      gsap.to(el, {
+        x: x * depth,
+        y: y * depth,
+        rotateX: -y * 20,
+        rotateY: x * 20,
+        duration: 0.5,
+        ease: 'power2.out',
+      });
     });
   };
 
@@ -33,7 +40,14 @@ const SoftClayGraphic: React.FC<{ type: string; color: string }> = ({ type, colo
     if (!container) return;
     const elements = container.querySelectorAll('.clay-element');
     elements.forEach((el) => {
-      (el as HTMLElement).style.transform = `translate3d(0px, 0px, 0px) rotateX(0deg) rotateY(0deg)`;
+      gsap.to(el, {
+        x: 0,
+        y: 0,
+        rotateX: 0,
+        rotateY: 0,
+        duration: 0.8,
+        ease: 'elastic.out(1, 0.5)',
+      });
     });
   };
 
@@ -42,41 +56,62 @@ const SoftClayGraphic: React.FC<{ type: string; color: string }> = ({ type, colo
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="w-full h-full relative overflow-hidden flex items-center justify-center p-6 select-none group/clay cursor-pointer"
-      style={{ perspective: '1000px' }}
+      className="relative w-full h-72 sm:h-80 md:h-96 flex items-center justify-center cursor-pointer perspective-1000 group"
     >
-      {/* Soft Ambient Radial Glow */}
+      {/* Outer Glowing Atmosphere */}
       <div
-        className="absolute w-56 h-56 rounded-full blur-3xl opacity-35 group-hover/clay:opacity-65 transition-opacity duration-500 pointer-events-none"
-        style={{ backgroundColor: color }}
+        className="absolute inset-0 rounded-3xl blur-3xl opacity-30 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none"
+        style={{ background: `radial-gradient(circle, ${color} 0%, transparent 70%)` }}
       />
 
-      {/* Soft Clay Sculpture Variants */}
+      {/* Main Soft Clay Central Sphere */}
+      <div
+        className="clay-element relative w-36 h-36 sm:w-44 sm:h-44 rounded-full flex items-center justify-center shadow-2xl transition-transform duration-300"
+        style={{
+          background: `radial-gradient(circle at 35% 35%, #ffffff 0%, ${color} 45%, #0f172a 100%)`,
+          boxShadow: `0 20px 50px rgba(0,0,0,0.6), inset -10px -10px 25px rgba(0,0,0,0.7), inset 10px 10px 25px rgba(255,255,255,0.4)`,
+        }}
+      >
+        {/* Subtle Surface Highlight Ring */}
+        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border border-white/30 backdrop-blur-sm animate-spin-slow" />
+      </div>
+
+      {/* Floating Soft Clay Sub-Orb 1 */}
+      <div
+        className="clay-element absolute top-6 left-8 sm:top-10 sm:left-12 w-14 h-14 sm:w-18 sm:h-18 rounded-full shadow-lg"
+        style={{
+          background: `radial-gradient(circle at 30% 30%, #ffffff 0%, ${color} 60%, #000000 100%)`,
+          boxShadow: `0 12px 30px rgba(0,0,0,0.5), inset -5px -5px 12px rgba(0,0,0,0.6), inset 5px 5px 12px rgba(255,255,255,0.5)`,
+        }}
+      />
+
+      {/* Floating Soft Clay Sub-Orb 2 */}
+      <div
+        className="clay-element absolute bottom-8 right-8 sm:bottom-12 sm:right-12 w-16 h-16 sm:w-20 sm:h-20 rounded-full shadow-lg"
+        style={{
+          background: `radial-gradient(circle at 40% 30%, #ffffff 0%, #a855f7 50%, #1e1b4b 100%)`,
+          boxShadow: `0 15px 35px rgba(0,0,0,0.5), inset -6px -6px 15px rgba(0,0,0,0.6), inset 6px 6px 15px rgba(255,255,255,0.5)`,
+        }}
+      />
+
+      {/* Abstract Clay Pill Element */}
+      <div
+        className="clay-element absolute -bottom-2 left-1/3 w-28 h-10 sm:w-36 sm:h-12 rounded-full shadow-xl rotate-12"
+        style={{
+          background: `linear-gradient(135deg, #ffffff 0%, ${color} 40%, #000000 100%)`,
+          boxShadow: `0 10px 25px rgba(0,0,0,0.5), inset -4px -4px 10px rgba(0,0,0,0.6), inset 4px 4px 10px rgba(255,255,255,0.4)`,
+        }}
+      />
+
+      {/* Type Specific Floating Micro Icons */}
       {type === 'branding' && (
         <div className="relative w-48 h-48 flex items-center justify-center">
-          {/* Main Soft Clay Torus Ring */}
           <div
             className="clay-element absolute w-36 h-36 transition-transform duration-300 ease-out"
             style={{
               background: `radial-gradient(circle at 35% 35%, #ffffff 0%, ${color} 45%, #0d0f17 100%)`,
               boxShadow: `inset 6px 6px 14px rgba(255,255,255,0.65), inset -10px -10px 20px rgba(0,0,0,0.85), 0 25px 50px rgba(0,0,0,0.75), 0 0 35px ${color}44`,
               borderRadius: '50%',
-            }}
-          />
-          {/* Inner Floating Soft Clay Sphere */}
-          <div
-            className="clay-element absolute w-20 h-20 rounded-full transition-transform duration-300 ease-out animate-bounce-slow"
-            style={{
-              background: `radial-gradient(circle at 30% 30%, #ffffff 0%, #FF5D93 50%, #3a0b1e 100%)`,
-              boxShadow: `inset 5px 5px 12px rgba(255,255,255,0.75), inset -8px -8px 16px rgba(0,0,0,0.8), 0 15px 35px rgba(0,0,0,0.6)`,
-            }}
-          />
-          {/* Floating Soft Clay Pill */}
-          <div
-            className="clay-element absolute -top-2 right-2 w-10 h-10 rounded-2xl transition-transform duration-300 ease-out"
-            style={{
-              background: `radial-gradient(circle at 30% 30%, #ffffff 0%, #8A46BB 60%, #150924 100%)`,
-              boxShadow: `inset 3px 3px 8px rgba(255,255,255,0.75), inset -5px -5px 10px rgba(0,0,0,0.8), 0 10px 20px rgba(0,0,0,0.5)`,
             }}
           />
         </div>
@@ -206,7 +241,7 @@ const SoftClayGraphic: React.FC<{ type: string; color: string }> = ({ type, colo
 
 export const ServicesFullscreen: React.FC<ServicesProps> = ({ onOpenContact }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [hoveredService, setHoveredService] = useState<string | null>(null);
+  const [_hoveredService, setHoveredService] = useState<string | null>(null);
 
   const getServiceIcon = (type: string) => {
     switch (type) {
