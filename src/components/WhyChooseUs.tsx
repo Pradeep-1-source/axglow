@@ -51,7 +51,25 @@ export const WhyChooseUs: React.FC = () => {
     card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
   };
 
-  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (e.touches.length === 0) return;
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.touches[0].clientX - rect.left;
+    const y = e.touches[0].clientY - rect.top;
+
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = (y - centerY) / 12;
+    const rotateY = (centerX - x) / 12;
+
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+  };
+
+  const handleMouseLeave = (e: React.SyntheticEvent<HTMLDivElement>) => {
     const card = e.currentTarget;
     card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
   };
@@ -111,6 +129,8 @@ export const WhyChooseUs: React.FC = () => {
               key={idx}
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleMouseLeave}
               className="why-card glass-card p-6 rounded-3xl relative overflow-hidden group transition-all duration-500 border border-white/10 hover:border-[#3BD8D9]/50 shadow-[0_20px_50px_rgba(0,0,0,0.6)] flex flex-col justify-between"
               style={{ transformStyle: 'preserve-3d' }}
             >

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { GradientShimmer } from '@/components/ui/gradient-shimmer';
 
 interface NavbarProps {
@@ -156,36 +157,52 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContact }) => {
       </header>
 
       {/* Mobile Menu Overlay */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-[100] bg-[#050505]/95 backdrop-blur-2xl md:hidden flex flex-col justify-between p-8 pt-24">
-          <div className="flex flex-col gap-6">
-            <p className="text-xs uppercase tracking-[0.3em] text-[#3BD8D9] font-mono">Navigation</p>
-            {navLinks.map((link, idx) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-3xl font-display font-bold text-white hover:text-[#3BD8D9] transition-colors flex items-center justify-between border-b border-white/10 pb-4"
-              >
-                <span>{link.name}</span>
-                <span className="text-xs font-mono text-white/40">0{idx + 1}</span>
-              </a>
-            ))}
-          </div>
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="fixed inset-0 z-[100] bg-[#050505]/95 backdrop-blur-2xl md:hidden flex flex-col justify-between p-8 pt-24"
+          >
+            <div className="flex flex-col gap-6">
+              <p className="text-xs uppercase tracking-[0.3em] text-[#3BD8D9] font-mono">Navigation</p>
+              {navLinks.map((link, idx) => (
+                <motion.a
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.05 * idx, duration: 0.3 }}
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-3xl font-display font-bold text-white hover:text-[#3BD8D9] transition-colors flex items-center justify-between border-b border-white/10 pb-4"
+                >
+                  <span>{link.name}</span>
+                  <span className="text-xs font-mono text-white/40">0{idx + 1}</span>
+                </motion.a>
+              ))}
+            </div>
 
-          <div className="flex flex-col gap-4">
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenContact();
-              }}
-              className="w-full py-4 rounded-full bg-[#3BD8D9] text-black font-bold uppercase tracking-wider text-sm flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(59,216,217,0.4)]"
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.3 }}
+              className="flex flex-col gap-4"
             >
-              <span>Start a Project</span>
-            </button>
-          </div>
-        </div>
-      )}
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenContact();
+                }}
+                className="w-full py-4 rounded-full bg-[#3BD8D9] text-black font-bold uppercase tracking-wider text-sm flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(59,216,217,0.4)] hover:scale-[1.02] active:scale-[0.98] transition-transform"
+              >
+                <span>Start a Project</span>
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

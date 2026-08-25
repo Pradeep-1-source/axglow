@@ -12,20 +12,16 @@ export const CustomCursor: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (window.matchMedia('(pointer: coarse)').matches) {
-      return;
-    }
-
     setIsVisible(true);
 
-    const onMouseMove = (e: MouseEvent) => {
-      mousePos.current = { x: e.clientX, y: e.clientY };
+    const updatePosition = (clientX: number, clientY: number) => {
+      mousePos.current = { x: clientX, y: clientY };
 
       if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%) scale(${cursorState === 'hover' ? 0.4 : 1})`;
+        dotRef.current.style.transform = `translate3d(${clientX}px, ${clientY}px, 0) translate(-50%, -50%) scale(${cursorState === 'hover' ? 0.4 : 1})`;
       }
 
-      const target = e.target as HTMLElement | null;
+      const target = document.elementFromPoint(clientX, clientY) as HTMLElement | null;
       if (!target) return;
 
       const projectCard = target.closest('[data-cursor="project"]');
@@ -47,15 +43,47 @@ export const CustomCursor: React.FC = () => {
       }
     };
 
+    const onMouseMove = (e: MouseEvent) => {
+      setIsVisible(true);
+      updatePosition(e.clientX, e.clientY);
+    };
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        setIsVisible(true);
+        updatePosition(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        setIsVisible(true);
+        updatePosition(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    };
+
+    const onTouchEnd = () => {
+      // Keep cursor visible briefly after touch release
+      setTimeout(() => {
+        setIsVisible(false);
+      }, 1500);
+    };
+
     const onMouseLeave = () => setIsVisible(false);
     const onMouseEnter = () => setIsVisible(true);
 
     window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+    window.addEventListener('touchend', onTouchEnd, { passive: true });
     document.addEventListener('mouseleave', onMouseLeave);
     document.addEventListener('mouseenter', onMouseEnter);
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchend', onTouchEnd);
       document.removeEventListener('mouseleave', onMouseLeave);
       document.removeEventListener('mouseenter', onMouseEnter);
     };

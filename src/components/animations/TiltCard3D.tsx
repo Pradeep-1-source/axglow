@@ -39,6 +39,27 @@ export const TiltCard3D: React.FC<TiltCard3DProps> = ({
     });
   };
 
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!cardRef.current || e.touches.length === 0) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.touches[0].clientX - rect.left;
+    const y = e.touches[0].clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((y - centerY) / centerY) * -maxTilt;
+    const rotateY = ((x - centerX) / centerX) * maxTilt;
+
+    gsap.to(cardRef.current, {
+      rotateX,
+      rotateY,
+      scale: scaleOnHover,
+      boxShadow: `0 20px 40px ${glowColor}`,
+      duration: 0.3,
+      ease: 'power2.out',
+    });
+  };
+
   const handleMouseLeave = () => {
     if (!cardRef.current) return;
     gsap.to(cardRef.current, {
@@ -56,6 +77,8 @@ export const TiltCard3D: React.FC<TiltCard3DProps> = ({
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleMouseLeave}
       className={`will-change-transform transform-gpu perspective-[1000px] cursor-pointer transition-shadow ${className}`}
       style={{ transformStyle: 'preserve-3d' }}
     >

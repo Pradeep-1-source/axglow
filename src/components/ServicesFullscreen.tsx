@@ -35,6 +35,28 @@ export const SoftClayGraphic: React.FC<{ type: string; color: string }> = ({ typ
     });
   };
 
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (e.touches.length === 0) return;
+    const container = containerRef.current;
+    if (!container) return;
+    const rect = container.getBoundingClientRect();
+    const x = (e.touches[0].clientX - rect.left) / rect.width - 0.5;
+    const y = (e.touches[0].clientY - rect.top) / rect.height - 0.5;
+
+    const elements = container.querySelectorAll('.clay-element');
+    elements.forEach((el, index) => {
+      const depth = (index + 1) * 15;
+      gsap.to(el, {
+        x: x * depth,
+        y: y * depth,
+        rotateX: -y * 20,
+        rotateY: x * 20,
+        duration: 0.5,
+        ease: 'power2.out',
+      });
+    });
+  };
+
   const handleMouseLeave = () => {
     const container = containerRef.current;
     if (!container) return;
@@ -56,6 +78,8 @@ export const SoftClayGraphic: React.FC<{ type: string; color: string }> = ({ typ
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleMouseLeave}
       className="relative w-full h-72 sm:h-80 md:h-96 flex items-center justify-center cursor-pointer perspective-1000 group"
     >
       {/* Outer Glowing Atmosphere */}

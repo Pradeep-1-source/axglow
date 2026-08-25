@@ -211,11 +211,21 @@ export const NewHero: React.FC<NewHeroProps> = ({ onOpenContact, onSwitchToOrigi
     setMousePos({ x, y });
   };
 
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (e.touches.length === 0) return;
+    const { clientX, clientY } = e.touches[0];
+    const { innerWidth, innerHeight } = window;
+    const x = (clientX / innerWidth - 0.5) * 20;
+    const y = (clientY / innerHeight - 0.5) * 20;
+    setMousePos({ x, y });
+  };
+
   return (
     <section
       id="home"
       ref={containerRef}
       onMouseMove={handleMouseMove}
+      onTouchMove={handleTouchMove}
       className="relative w-full h-screen overflow-hidden bg-black select-none"
     >
 
@@ -354,20 +364,20 @@ export const NewHero: React.FC<NewHeroProps> = ({ onOpenContact, onSwitchToOrigi
         </div>
 
         {/* Floating Stats Badges */}
-        <div className="hidden lg:flex absolute bottom-10 left-12 right-12 justify-between items-center pointer-events-auto">
-          <div className="glass-panel px-6 py-3 rounded-2xl border border-white/10 flex items-center gap-4 backdrop-blur-xl">
-            <div className="w-3 h-3 rounded-full bg-[#3BD8D9] shadow-[0_0_10px_#3BD8D9]" />
+        <div className="flex flex-row justify-between items-center gap-2 absolute bottom-4 sm:bottom-8 left-4 sm:left-12 right-4 sm:right-12 pointer-events-auto z-30">
+          <div className="glass-panel px-3.5 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl border border-white/10 flex items-center gap-2 sm:gap-4 backdrop-blur-xl">
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#3BD8D9] shadow-[0_0_10px_#3BD8D9] shrink-0" />
             <div className="text-left">
-              <span className="block text-xs font-mono text-white/50 uppercase">Frame Sync</span>
-              <span className="text-sm font-bold font-mono text-white">200 HD FRAMES REEL</span>
+              <span className="block text-[9px] sm:text-xs font-mono text-white/50 uppercase">Frame Sync</span>
+              <span className="text-[11px] sm:text-sm font-bold font-mono text-white">200 HD FRAMES REEL</span>
             </div>
           </div>
 
-          <div className="glass-panel px-6 py-3 rounded-2xl border border-white/10 flex items-center gap-4 backdrop-blur-xl">
-            <div className="w-3 h-3 rounded-full bg-[#8A46BB] shadow-[0_0_10px_#8A46BB]" />
+          <div className="glass-panel px-3.5 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl border border-white/10 flex items-center gap-2 sm:gap-4 backdrop-blur-xl">
+            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#8A46BB] shadow-[0_0_10px_#8A46BB] shrink-0" />
             <div className="text-left">
-              <span className="block text-xs font-mono text-white/50 uppercase">Satisfaction</span>
-              <span className="text-sm font-bold font-mono text-white">99.8% VERIFIED</span>
+              <span className="block text-[9px] sm:text-xs font-mono text-white/50 uppercase">Satisfaction</span>
+              <span className="text-[11px] sm:text-sm font-bold font-mono text-white">99.8% VERIFIED</span>
             </div>
           </div>
         </div>

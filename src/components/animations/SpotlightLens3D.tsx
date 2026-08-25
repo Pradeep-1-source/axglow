@@ -52,6 +52,21 @@ export const SpotlightLens3D: React.FC<SpotlightLens3DProps> = ({
       yToHole(targetY);
     };
 
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 0) return;
+      const rect = section.getBoundingClientRect();
+      const x = e.touches[0].clientX - rect.left;
+      const y = e.touches[0].clientY - rect.top;
+
+      const targetX = x - lensSize / 2;
+      const targetY = y - lensSize / 2;
+
+      xToBox(targetX);
+      yToBox(targetY);
+      xToHole(targetX);
+      yToHole(targetY);
+    };
+
     const handleMouseEnter = () => {
       gsap.to([cropBoxRef.current, holeRectRef.current], {
         opacity: 1,
@@ -73,11 +88,17 @@ export const SpotlightLens3D: React.FC<SpotlightLens3DProps> = ({
     section.addEventListener('mousemove', handleMouseMove);
     section.addEventListener('mouseenter', handleMouseEnter);
     section.addEventListener('mouseleave', handleMouseLeave);
+    section.addEventListener('touchstart', handleMouseEnter, { passive: true });
+    section.addEventListener('touchmove', handleTouchMove, { passive: true });
+    section.addEventListener('touchend', handleMouseLeave, { passive: true });
 
     return () => {
       section.removeEventListener('mousemove', handleMouseMove);
       section.removeEventListener('mouseenter', handleMouseEnter);
       section.removeEventListener('mouseleave', handleMouseLeave);
+      section.removeEventListener('touchstart', handleMouseEnter);
+      section.removeEventListener('touchmove', handleTouchMove);
+      section.removeEventListener('touchend', handleMouseLeave);
     };
   }, [lensSize]);
 

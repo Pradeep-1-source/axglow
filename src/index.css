@@ -168,3 +168,11 @@
   .fan-card { width: 19rem; height: 28rem; }
 }
 
+/* Utility to hide scrollbars on touch scroll reels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

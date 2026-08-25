@@ -46,14 +46,16 @@ const StickyCard_001 = ({
 
   const scale = useTransform(progress, range, [1, targetScale])
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
+
   return (
     <div ref={container} className="sticky top-0 flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <motion.div
         style={{
           scale,
-          top: `calc(-5vh + ${i * 15 + 200}px)`,
+          top: isMobile ? `calc(8vh + ${i * 12}px)` : `calc(-5vh + ${i * 15 + 200}px)`,
         }}
-        className="rounded-2xl sm:rounded-3xl lg:rounded-4xl relative -top-1/4 flex origin-top flex-col overflow-hidden
+        className="rounded-2xl sm:rounded-3xl lg:rounded-4xl relative flex origin-top flex-col overflow-hidden shadow-2xl border border-white/15
                    h-[200px] w-[280px] 
                    sm:h-[240px] sm:w-[360px] 
                    md:h-[280px] md:w-[420px] 

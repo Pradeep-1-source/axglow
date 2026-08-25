@@ -228,8 +228,34 @@ export default function SocialCards({ cards }: SocialCardsProps) {
         if (activeSlot !== slot) { activeSlot = slot; updateHoverLayout(slot); }
       };
       el.addEventListener("mouseenter", handler);
+      el.addEventListener("touchstart", handler, { passive: true });
       return { el, handler };
     });
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      if (e.changedTouches.length > 0) {
+        const diffX = e.changedTouches[0].clientX - touchStartX;
+        const diffY = e.changedTouches[0].clientY - touchStartY;
+
+        if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
+          if (diffX > 0) {
+            cycle("left");
+          } else {
+            cycle("right");
+          }
+        }
+      }
+    };
 
     const onMouseLeave = () => {
       if (isAnimating.current) return;
@@ -237,17 +263,24 @@ export default function SocialCards({ cards }: SocialCardsProps) {
       leaveTimer = setTimeout(() => { activeSlot = null; updateHoverLayout(null); }, 50);
     };
     container.addEventListener("mouseleave", onMouseLeave);
+    container.addEventListener("touchstart", onTouchStart, { passive: true });
+    container.addEventListener("touchend", onTouchEnd, { passive: true });
 
     const onResize = () => { if (!isAnimating.current) updateHoverLayout(activeSlot); };
     window.addEventListener("resize", onResize);
 
     return () => {
-      enterHandlers.forEach(({ el, handler }) => el.removeEventListener("mouseenter", handler));
+      enterHandlers.forEach(({ el, handler }) => {
+        el.removeEventListener("mouseenter", handler);
+        el.removeEventListener("touchstart", handler);
+      });
       container.removeEventListener("mouseleave", onMouseLeave);
+      container.removeEventListener("touchstart", onTouchStart);
+      container.removeEventListener("touchend", onTouchEnd);
       window.removeEventListener("resize", onResize);
       if (leaveTimer) clearTimeout(leaveTimer);
     };
-  }, [centerIndex, totalCards, getVisibleMap, needsPagination]);
+  }, [centerIndex, totalCards, getVisibleMap, needsPagination, cycle]);
 
   if (!totalCards) return null;
 

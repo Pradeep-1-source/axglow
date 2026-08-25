@@ -115,20 +115,25 @@ export function FolderExplosionGrid3D<T>({
         '-=0.6'
       );
 
+      const isMobile = window.innerWidth < 768;
+      const effCardWidth = isMobile ? Math.min(cardWidth, (window.innerWidth - 32) / 3.2) : cardWidth;
+      const effCardHeight = isMobile ? (effCardWidth * cardHeight) / cardWidth : cardHeight;
+      const effGap = isMobile ? 8 : gap;
+
       // 3. Cards explode/fan out into grid positions
       tl.to(
         cardsRef.current,
         {
           x: (i) => {
             const { col } = getGridPos(i);
-            return (col - 1) * (cardWidth + gap);
+            return (col - 1) * (effCardWidth + effGap);
           },
           y: (i) => {
             const { row } = getGridPos(i);
-            return (row - 1) * (cardHeight + gap);
+            return (row - 1) * (effCardHeight + effGap);
           },
           rotation: () => gsap.utils.random(-4, 4),
-          scale: 1,
+          scale: isMobile ? 0.9 : 1,
           duration: 1.4,
           stagger: { amount: 0.4, from: 'center' },
           ease: 'expo.out',

@@ -380,13 +380,13 @@ export const AboutEditorial: React.FC = () => {
                 AglowX Visual Spectrum — Scroll Motion Reel
               </span>
             </div>
-            <div className="hidden sm:flex items-center gap-2 text-xs font-mono text-white/40">
+            <div className="flex items-center gap-2 text-xs font-mono text-white/40">
               <Eye className="w-4 h-4 text-[#3BD8D9] animate-pulse" />
-              <span>SCROLL TO TRAVERSE</span>
+              <span>SWIPE OR SCROLL TO TRAVERSE</span>
             </div>
           </div>
 
-          <div ref={reelContainerRef} className="overflow-hidden w-full relative py-4">
+          <div ref={reelContainerRef} className="overflow-x-auto sm:overflow-hidden w-full relative py-4 no-scrollbar">
             <div ref={reelRef} className="flex gap-6 w-max cursor-grab active:cursor-grabbing">
               {SCROLL_REEL_ITEMS.map((item, idx) => (
                 <div
