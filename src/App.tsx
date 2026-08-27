@@ -8,7 +8,6 @@ import { CustomCursor } from './components/CustomCursor';
 import { NoiseOverlay } from './components/NoiseOverlay';
 import { BackgroundLighting } from './components/BackgroundLighting';
 import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
 import { NewHero } from './components/NewHero';
 import { AboutEditorial } from './components/AboutEditorial';
 import { ServicesFullscreen } from './components/ServicesFullscreen';
@@ -34,7 +33,6 @@ export function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
   const [contactOpen, setContactOpen] = useState(false);
-  const [heroVariant, setHeroVariant] = useState<'new' | 'classic'>('new');
 
   // Initialize Lenis Smooth Scroll with enhanced inertia & lag smoothing
   useEffect(() => {
@@ -86,14 +84,7 @@ export function App() {
 
           {/* Main Website Sections */}
           <main className="relative z-10">
-            {heroVariant === 'new' ? (
-              <NewHero
-                onOpenContact={() => setContactOpen(true)}
-                onSwitchToOriginal={() => setHeroVariant('classic')}
-              />
-            ) : (
-              <Hero onOpenContact={() => setContactOpen(true)} />
-            )}
+            <NewHero onOpenContact={() => setContactOpen(true)} />
             <ZoomParallaxDemo />
             <Animation3DShowcase />
             <AboutEditorial />

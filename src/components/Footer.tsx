@@ -122,4 +122,3 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact }) => {
 };
 
 export default Footer;
-

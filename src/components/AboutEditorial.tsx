@@ -57,10 +57,11 @@ const SCROLL_REEL_ITEMS = [
 export const AboutEditorial: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
+  const highlightSpanRef = useRef<HTMLSpanElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
   const reelRef = useRef<HTMLDivElement>(null);
   const reelContainerRef = useRef<HTMLDivElement>(null);
-  
+
   const missionImgRef = useRef<HTMLImageElement>(null);
   const visionImgRef = useRef<HTMLImageElement>(null);
 
@@ -74,9 +75,12 @@ export const AboutEditorial: React.FC = () => {
     setActiveSlide((prev) => (prev - 1 + GALLERY_IMAGES.length) % GALLERY_IMAGES.length);
   };
 
+  // GSAP ScrollTrigger Section Reveal Animations
   useEffect(() => {
+    if (!sectionRef.current) return;
+
     const ctx = gsap.context(() => {
-      // Reveal main editorial quote on scroll
+      // Main Headline Reveal
       gsap.fromTo(
         headlineRef.current,
         { opacity: 0, y: 80 },
@@ -93,7 +97,7 @@ export const AboutEditorial: React.FC = () => {
         }
       );
 
-      // Stagger mission, vision & philosophy cards reveal
+      // Staggered Cards Reveal
       if (cardsRef.current) {
         gsap.fromTo(
           cardsRef.current.children,
@@ -113,7 +117,7 @@ export const AboutEditorial: React.FC = () => {
         );
       }
 
-      // Parallax scroll effect for Mission card background image
+      // Parallax Image Scrub - Mission
       if (missionImgRef.current) {
         gsap.fromTo(
           missionImgRef.current,
@@ -131,7 +135,7 @@ export const AboutEditorial: React.FC = () => {
         );
       }
 
-      // Parallax scroll effect for Vision card background image
+      // Parallax Image Scrub - Vision
       if (visionImgRef.current) {
         gsap.fromTo(
           visionImgRef.current,
@@ -149,7 +153,7 @@ export const AboutEditorial: React.FC = () => {
         );
       }
 
-      // Horizontal Scroll Parallax for the aesthetic showcase reel
+      // Horizontal Scroll Reel Motion
       if (reelRef.current && reelContainerRef.current) {
         gsap.to(reelRef.current, {
           x: () => -(reelRef.current!.scrollWidth - reelContainerRef.current!.clientWidth),
@@ -168,12 +172,17 @@ export const AboutEditorial: React.FC = () => {
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} className="relative py-32 px-6 md:px-12 overflow-hidden bg-transparent">
-      {/* Background Ambient Glow */}
-      <div className="absolute top-1/4 left-0 w-[600px] h-[600px] bg-[#8A46BB]/15 rounded-full blur-[200px] pointer-events-none" />
-      <div className="absolute bottom-10 right-0 w-[500px] h-[500px] bg-[#3BD8D9]/10 rounded-full blur-[180px] pointer-events-none" />
+    <section
+      id="about"
+      ref={sectionRef}
+      className="relative py-28 px-6 md:px-12 overflow-hidden bg-transparent select-none min-h-screen"
+    >
+      {/* Background Lighting Glow Orbs */}
+      <div className="absolute top-1/4 left-0 w-[600px] h-[600px] bg-[#3BD8D9]/10 rounded-full blur-[200px] pointer-events-none z-0" />
+      <div className="absolute bottom-10 right-0 w-[500px] h-[500px] bg-[#8A46BB]/10 rounded-full blur-[180px] pointer-events-none z-0" />
 
-      <div className="max-w-7xl mx-auto">
+      {/* Main Content Layer */}
+      <div className="max-w-7xl mx-auto relative z-20">
         {/* Editorial Subheader Badge */}
         <div className="flex items-center gap-3 mb-10">
           <div className="w-12 h-[1px] bg-[#3BD8D9]" />
@@ -188,10 +197,13 @@ export const AboutEditorial: React.FC = () => {
           <div className="lg:col-span-8">
             <h2
               ref={headlineRef}
-              className="font-display text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] text-white tracking-tight"
+              className="font-display text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] text-white tracking-tight transition-all duration-500"
             >
               We don't build generic websites.{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3BD8D9] via-white to-[#8A46BB]">
+              <span
+                ref={highlightSpanRef}
+                className="text-transparent bg-clip-text bg-gradient-to-r from-[#3BD8D9] via-white to-[#8A46BB] transition-all duration-500"
+              >
                 We engineer digital monuments
               </span>{' '}
               that elevate market authority.
@@ -219,10 +231,8 @@ export const AboutEditorial: React.FC = () => {
 
         {/* Split Editorial Cards: Mission, Vision, and Interactive Graphic Showcase */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-20" ref={cardsRef}>
-          
-          {/* Mission Card with Premium Image & Parallax Scroll */}
+          {/* Mission Card with Parallax */}
           <div className="lg:col-span-4 min-h-[420px] rounded-3xl relative overflow-hidden group border border-white/10 backdrop-blur-xl bg-[#090b10]/80 p-8 md:p-10 flex flex-col justify-between transition-all duration-500 hover:border-[#3BD8D9]/50 hover:shadow-[0_0_50px_rgba(59,216,217,0.15)]">
-            {/* Background Parallax Image */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <img
                 ref={missionImgRef}
@@ -233,7 +243,6 @@ export const AboutEditorial: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-[#06070a] via-[#06070a]/70 to-transparent" />
             </div>
 
-            {/* Glowing Accent Orbs */}
             <div className="absolute top-0 right-0 w-36 h-36 bg-[#3BD8D9]/15 rounded-full blur-3xl group-hover:bg-[#3BD8D9]/30 transition-all duration-500 pointer-events-none" />
 
             <div className="relative z-10">
@@ -261,9 +270,8 @@ export const AboutEditorial: React.FC = () => {
             </div>
           </div>
 
-          {/* Vision Card with Premium Image & Parallax Scroll */}
+          {/* Vision Card with Parallax */}
           <div className="lg:col-span-4 min-h-[420px] rounded-3xl relative overflow-hidden group border border-white/10 backdrop-blur-xl bg-[#090b10]/80 p-8 md:p-10 flex flex-col justify-between transition-all duration-500 hover:border-[#8A46BB]/50 hover:shadow-[0_0_50px_rgba(138,70,187,0.15)]">
-            {/* Background Parallax Image */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <img
                 ref={visionImgRef}
@@ -274,7 +282,6 @@ export const AboutEditorial: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-[#06070a] via-[#06070a]/70 to-transparent" />
             </div>
 
-            {/* Glowing Accent Orbs */}
             <div className="absolute top-0 right-0 w-36 h-36 bg-[#8A46BB]/15 rounded-full blur-3xl group-hover:bg-[#8A46BB]/30 transition-all duration-500 pointer-events-none" />
 
             <div className="relative z-10">
@@ -304,7 +311,6 @@ export const AboutEditorial: React.FC = () => {
 
           {/* Interactive Haute Couture Motion Image Carousel Showcase */}
           <div className="lg:col-span-4 min-h-[420px] rounded-3xl overflow-hidden relative group border border-white/15 bg-[#08080c] flex flex-col justify-between transition-all duration-500 hover:border-[#3BD8D9]/40">
-            {/* Slide Background Images */}
             {GALLERY_IMAGES.map((img, index) => (
               <div
                 key={index}
@@ -321,7 +327,6 @@ export const AboutEditorial: React.FC = () => {
               </div>
             ))}
 
-            {/* Top Bar Indicators */}
             <div className="relative z-10 p-6 flex items-center justify-between">
               <span className="text-[10px] font-mono text-[#3BD8D9] uppercase tracking-widest bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-[#3BD8D9]/30">
                 {GALLERY_IMAGES[activeSlide].tag}
@@ -339,7 +344,6 @@ export const AboutEditorial: React.FC = () => {
               </div>
             </div>
 
-            {/* Bottom Content & Navigation Overlay */}
             <div className="relative z-10 p-6 md:p-8 flex items-end justify-between gap-4">
               <div>
                 <span className="text-[11px] font-mono text-white/60 uppercase tracking-wider block mb-1">
@@ -368,7 +372,6 @@ export const AboutEditorial: React.FC = () => {
               </div>
             </div>
           </div>
-
         </div>
 
         {/* Dynamic Horizontal Scroll-Parallax Aesthetic Reel */}
@@ -417,11 +420,9 @@ export const AboutEditorial: React.FC = () => {
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );
 };
 
 export default AboutEditorial;
-

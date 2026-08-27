@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Play, Pause, Sparkles, ArrowUpRight, ShieldCheck, Flame, Zap, Layers, RefreshCw } from 'lucide-react';
+import { Sparkles, ArrowUpRight, ShieldCheck, Flame, Zap, Layers } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -7,12 +7,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 interface NewHeroProps {
   onOpenContact: () => void;
-  onSwitchToOriginal?: () => void;
 }
 
 const TOTAL_FRAMES = 200;
 
-export const NewHero: React.FC<NewHeroProps> = ({ onOpenContact, onSwitchToOriginal }) => {
+export const NewHero: React.FC<NewHeroProps> = ({ onOpenContact }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particleCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -20,7 +19,6 @@ export const NewHero: React.FC<NewHeroProps> = ({ onOpenContact, onSwitchToOrigi
 
   const [isLoading, setIsLoading] = useState(false);
   const [_loadProgress, setLoadProgress] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
   const [activeTab, setActiveTab] = useState<'branding' | 'digital' | 'production'>('branding');
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
@@ -129,19 +127,17 @@ export const NewHero: React.FC<NewHeroProps> = ({ onOpenContact, onSwitchToOrigi
 
   // Autoplay Reel Loop
   useEffect(() => {
-    if (isPlaying) {
-      playIntervalRef.current = setInterval(() => {
-        currentFrameRef.current = (currentFrameRef.current + 1) % TOTAL_FRAMES;
-        renderFrame(currentFrameRef.current);
-      }, 40);
-    } else if (playIntervalRef.current) {
-      clearInterval(playIntervalRef.current);
-    }
+    if (isLoading) return;
+
+    playIntervalRef.current = setInterval(() => {
+      currentFrameRef.current = (currentFrameRef.current + 1) % TOTAL_FRAMES;
+      renderFrame(currentFrameRef.current);
+    }, 40);
 
     return () => {
       if (playIntervalRef.current) clearInterval(playIntervalRef.current);
     };
-  }, [isPlaying]);
+  }, [isLoading]);
 
   // Ambient Particle Canvas System
   useEffect(() => {
@@ -226,9 +222,8 @@ export const NewHero: React.FC<NewHeroProps> = ({ onOpenContact, onSwitchToOrigi
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onTouchMove={handleTouchMove}
-      className="relative w-full h-screen overflow-hidden bg-black select-none"
+      className="relative w-full min-h-[100dvh] sm:h-screen overflow-hidden bg-black select-none flex flex-col justify-between items-center"
     >
-
       {/* Frame Canvas Sequence */}
       <canvas
         ref={canvasRef}
@@ -244,45 +239,10 @@ export const NewHero: React.FC<NewHeroProps> = ({ onOpenContact, onSwitchToOrigi
       {/* Lighting Gradients Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/90 pointer-events-none z-10" />
 
-      {/* Top Floating Control Bar */}
-      <div className="absolute top-28 right-6 sm:right-12 z-30 flex items-center gap-3">
-        {/* Play/Pause Reel Toggle */}
-        <button
-          onClick={() => setIsPlaying(!isPlaying)}
-          data-cursor="pointer"
-          className="px-4 py-2 rounded-full bg-black/60 backdrop-blur-xl border border-white/20 hover:border-[#3BD8D9] text-white text-xs font-mono tracking-wider flex items-center gap-2 transition-all duration-300 shadow-lg hover:shadow-[0_0_20px_rgba(59,216,217,0.3)]"
-        >
-          {isPlaying ? (
-            <>
-              <Pause className="w-3.5 h-3.5 text-[#FF5D93] animate-pulse" />
-              <span>PAUSE REEL</span>
-            </>
-          ) : (
-            <>
-              <Play className="w-3.5 h-3.5 text-[#3BD8D9]" />
-              <span>PLAY CINEMATIC</span>
-            </>
-          )}
-        </button>
-
-        {/* Switch Hero Variant Button */}
-        {onSwitchToOriginal && (
-          <button
-            onClick={onSwitchToOriginal}
-            data-cursor="pointer"
-            title="Switch back to Classic Hero"
-            className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 text-white text-xs font-mono tracking-wider flex items-center gap-2 transition-all duration-300"
-          >
-            <RefreshCw className="w-3.5 h-3.5 text-[#3BD8D9]" />
-            <span className="hidden sm:inline">CLASSIC HERO</span>
-          </button>
-        )}
-      </div>
-
       {/* Hero Content Container */}
       <div
         ref={contentRef}
-        className="relative z-20 w-full h-full flex flex-col justify-center items-center px-6 sm:px-12 pt-20 pb-12 text-center"
+        className="relative z-20 w-full h-full flex flex-col justify-center items-center px-4 sm:px-12 pt-24 sm:pt-20 pb-8 sm:pb-12 text-center my-auto"
         style={{
           transform: `perspective(1000px) rotateX(${mousePos.y * 0.15}deg) rotateY(${mousePos.x * 0.15}deg)`,
           transition: 'transform 0.1s ease-out',
@@ -290,18 +250,18 @@ export const NewHero: React.FC<NewHeroProps> = ({ onOpenContact, onSwitchToOrigi
       >
         <div className="max-w-5xl mx-auto flex flex-col items-center">
           {/* Animated Glow Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.05] border border-[#3BD8D9]/40 mb-6 backdrop-blur-2xl shadow-[0_0_25px_rgba(59,216,217,0.2)]">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/[0.05] border border-[#3BD8D9]/40 mb-4 sm:mb-6 backdrop-blur-2xl shadow-[0_0_25px_rgba(59,216,217,0.2)]">
             <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#3BD8D9] opacity-75" />
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#3BD8D9]" />
             </span>
-            <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#3BD8D9] font-bold">
+            <span className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.18em] sm:tracking-[0.25em] text-[#3BD8D9] font-bold">
               NEXT-GEN DIGITAL ARCHITECTS
             </span>
           </div>
 
           {/* Futuristic Headline */}
-          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-extrabold uppercase tracking-tight text-white mb-6 leading-[0.95]">
+          <h1 className="text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-extrabold uppercase tracking-tight text-white mb-4 sm:mb-6 leading-[1.0] sm:leading-[0.95] px-2 sm:px-0">
             Crafting Digital <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3BD8D9] via-white to-[#8A46BB] filter drop-shadow-[0_0_35px_rgba(59,216,217,0.4)]">
               Masterpieces
@@ -309,12 +269,12 @@ export const NewHero: React.FC<NewHeroProps> = ({ onOpenContact, onSwitchToOrigi
           </h1>
 
           {/* Subtitle */}
-          <p className="max-w-2xl text-base sm:text-lg md:text-xl text-white/80 font-sans font-light leading-relaxed mb-8">
+          <p className="max-w-2xl text-xs sm:text-lg md:text-xl text-white/80 font-sans font-light leading-relaxed mb-6 sm:mb-8 px-2 sm:px-0">
             We fuse hyper-luxurious design aesthetics with high-performance engineering to transform visionary ideas into industry-leading digital platforms.
           </p>
 
           {/* Interactive Specialty Tab Pills */}
-          <div className="flex flex-wrap justify-center gap-3 mb-10">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 sm:mb-10 px-2 sm:px-0">
             {[
               { id: 'branding', label: 'Brand Strategy', icon: Flame, color: '#3BD8D9' },
               { id: 'digital', label: '3D Web Experience', icon: Zap, color: '#8A46BB' },
@@ -327,7 +287,7 @@ export const NewHero: React.FC<NewHeroProps> = ({ onOpenContact, onSwitchToOrigi
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
                   data-cursor="pointer"
-                  className={`px-5 py-2.5 rounded-full text-xs font-mono tracking-widest uppercase transition-all duration-300 flex items-center gap-2 border ${
+                  className={`px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-mono tracking-wider sm:tracking-widest uppercase transition-all duration-300 flex items-center gap-1.5 sm:gap-2 border ${
                     isActive
                       ? 'bg-white/15 text-white border-[#3BD8D9] shadow-[0_0_20px_rgba(59,216,217,0.3)]'
                       : 'bg-black/40 text-white/60 border-white/10 hover:border-white/30 hover:text-white'
@@ -341,11 +301,11 @@ export const NewHero: React.FC<NewHeroProps> = ({ onOpenContact, onSwitchToOrigi
           </div>
 
           {/* CTA Action Bar */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto px-4 sm:px-0">
             <button
               onClick={onOpenContact}
               data-cursor="pointer"
-              className="w-full sm:w-auto group relative px-9 py-4 rounded-full bg-gradient-to-r from-[#3BD8D9] to-[#8A46BB] text-black font-sans font-bold text-xs uppercase tracking-[0.2em] transition-all duration-300 shadow-[0_0_35px_rgba(59,216,217,0.5)] hover:shadow-[0_0_50px_rgba(138,70,187,0.8)] flex items-center justify-center gap-2"
+              className="w-full sm:w-auto group relative px-7 py-3.5 sm:px-9 sm:py-4 rounded-full bg-gradient-to-r from-[#3BD8D9] to-[#8A46BB] text-black font-sans font-bold text-[11px] sm:text-xs uppercase tracking-[0.18em] sm:tracking-[0.2em] transition-all duration-300 shadow-[0_0_35px_rgba(59,216,217,0.5)] hover:shadow-[0_0_50px_rgba(138,70,187,0.8)] flex items-center justify-center gap-2"
             >
               <Sparkles className="w-4 h-4 text-black" />
               <span>Launch Your Vision</span>
@@ -355,7 +315,7 @@ export const NewHero: React.FC<NewHeroProps> = ({ onOpenContact, onSwitchToOrigi
             <a
               href="#projects"
               data-cursor="pointer"
-              className="w-full sm:w-auto px-8 py-4 rounded-full bg-white/[0.05] hover:bg-white/15 border border-white/15 text-white font-sans font-medium text-xs uppercase tracking-[0.2em] transition-all duration-300 flex items-center justify-center gap-2 backdrop-blur-xl"
+              className="w-full sm:w-auto px-6 py-3.5 sm:px-8 sm:py-4 rounded-full bg-white/[0.05] hover:bg-white/15 border border-white/15 text-white font-sans font-medium text-[11px] sm:text-xs uppercase tracking-[0.18em] sm:tracking-[0.2em] transition-all duration-300 flex items-center justify-center gap-2 backdrop-blur-xl"
             >
               <ShieldCheck className="w-4 h-4 text-[#3BD8D9]" />
               <span>Explore Selected Work</span>
@@ -364,20 +324,20 @@ export const NewHero: React.FC<NewHeroProps> = ({ onOpenContact, onSwitchToOrigi
         </div>
 
         {/* Floating Stats Badges */}
-        <div className="flex flex-row justify-between items-center gap-2 absolute bottom-4 sm:bottom-8 left-4 sm:left-12 right-4 sm:right-12 pointer-events-auto z-30">
-          <div className="glass-panel px-3.5 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl border border-white/10 flex items-center gap-2 sm:gap-4 backdrop-blur-xl">
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#3BD8D9] shadow-[0_0_10px_#3BD8D9] shrink-0" />
+        <div className="flex flex-row justify-between items-center gap-2 sm:absolute sm:bottom-8 left-4 sm:left-12 right-4 sm:right-12 pointer-events-auto z-30 w-full sm:w-auto px-4 sm:px-0 mt-8 sm:mt-0">
+          <div className="glass-panel px-3 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl border border-white/10 flex items-center gap-2 sm:gap-4 backdrop-blur-xl">
+            <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#3BD8D9] shadow-[0_0_10px_#3BD8D9] shrink-0" />
             <div className="text-left">
               <span className="block text-[9px] sm:text-xs font-mono text-white/50 uppercase">Frame Sync</span>
-              <span className="text-[11px] sm:text-sm font-bold font-mono text-white">200 HD FRAMES REEL</span>
+              <span className="text-[10px] sm:text-sm font-bold font-mono text-white">200 HD FRAMES REEL</span>
             </div>
           </div>
 
-          <div className="glass-panel px-3.5 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl border border-white/10 flex items-center gap-2 sm:gap-4 backdrop-blur-xl">
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#8A46BB] shadow-[0_0_10px_#8A46BB] shrink-0" />
+          <div className="glass-panel px-3 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl border border-white/10 flex items-center gap-2 sm:gap-4 backdrop-blur-xl">
+            <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#8A46BB] shadow-[0_0_10px_#8A46BB] shrink-0" />
             <div className="text-left">
               <span className="block text-[9px] sm:text-xs font-mono text-white/50 uppercase">Satisfaction</span>
-              <span className="text-[11px] sm:text-sm font-bold font-mono text-white">99.8% VERIFIED</span>
+              <span className="text-[10px] sm:text-sm font-bold font-mono text-white">99.8% VERIFIED</span>
             </div>
           </div>
         </div>
