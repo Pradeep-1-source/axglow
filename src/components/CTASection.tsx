@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Sparkles, ArrowUpRight, Check, Flame, DollarSign } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { TextScrollAnimation } from './ui/text-scroll-animation';
 
 interface CTAProps {
   onOpenContact: () => void;
@@ -159,12 +160,12 @@ export const CTASection: React.FC<CTAProps> = ({ onOpenContact }) => {
         </div>
 
         {/* Headline */}
-        <h2 className="font-display text-4xl sm:text-6xl md:text-7xl font-black text-white uppercase tracking-tight leading-[0.95] mb-6">
-          Ready to Build <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3BD8D9] via-white to-[#FF5D93] filter drop-shadow-[0_0_40px_rgba(59,216,217,0.4)]">
-            Something Iconic?
-          </span>
-        </h2>
+        <TextScrollAnimation
+          text="Ready to Build Something Iconic?"
+          highlightText="Iconic?"
+          variant="v3"
+          className="font-display text-4xl sm:text-6xl md:text-7xl font-black text-white uppercase tracking-tight leading-[0.95] mb-6 justify-center"
+        />
 
         <p className="max-w-2xl mx-auto text-base sm:text-lg text-white/70 font-sans font-light leading-relaxed mb-12">
           Select your desired scope and budget parameters using the interactive tags below to launch your project brief.

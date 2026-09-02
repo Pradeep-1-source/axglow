@@ -24,19 +24,30 @@ import { Animation3DShowcase } from './components/Animation3DShowcase';
 import Demo from './components/ui/demo';
 import { ImagesScrollingAnimation } from './components/ui/images-scrolling-animation';
 import ZoomParallaxDemo from './components/ui/zoom-parallax-demo';
+import MetroHero from './components/ui/scroll-locked-video-hero';
 
 import type { PortfolioProject } from './types';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function App() {
+  const [introDone, setIntroDone] = useState(false);
+  const [introFading, setIntroFading] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
   const [contactOpen, setContactOpen] = useState(false);
 
+  // Handle intro completion — fade out intro, then reveal main site
+  const handleIntroComplete = () => {
+    setIntroFading(true);
+    setTimeout(() => {
+      setIntroDone(true);
+    }, 800);
+  };
+
   // Initialize Lenis Smooth Scroll with enhanced inertia & lag smoothing
   useEffect(() => {
-    if (isLoading) return;
+    if (!introDone || isLoading) return;
 
     const lenis = new Lenis({
       duration: 1.6,
@@ -61,7 +72,30 @@ export function App() {
       gsap.ticker.remove(updateLenis);
       lenis.destroy();
     };
-  }, [isLoading]);
+  }, [introDone, isLoading]);
+
+  // Show intro gate (scroll-locked video hero)
+  if (!introDone) {
+    return (
+      <div
+        style={{
+          opacity: introFading ? 0 : 1,
+          transition: 'opacity 0.8s ease-out',
+          position: 'fixed',
+          inset: 0,
+          zIndex: 9999,
+        }}
+      >
+        <MetroHero
+          title="AXGLOW"
+          tagline="Crafting Digital Masterpieces"
+          scrollHint="SCROLL TO ENTER"
+          signature={{ name: "AXGLOW", url: "#" }}
+          onComplete={handleIntroComplete}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="relative bg-black text-white selection:bg-[#3BD8D9] selection:text-black min-h-screen">
@@ -121,3 +155,4 @@ export function App() {
 }
 
 export default App;
+

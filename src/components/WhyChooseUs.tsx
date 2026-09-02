@@ -3,6 +3,7 @@ import { WHY_CHOOSE_US_ITEMS } from '../data/content';
 import { Crown, Compass, Cpu, Sparkles, Video, TrendingUp, Users, Check } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { TextScrollAnimation } from './ui/text-scroll-animation';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -110,12 +111,12 @@ export const WhyChooseUs: React.FC = () => {
 
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
           <div>
-            <h2 className="font-display text-4xl sm:text-6xl md:text-7xl font-bold text-white tracking-tight uppercase">
-              Why Ambitious Brands <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3BD8D9] via-white to-[#FF5D93]">
-                Choose AglowX
-              </span>
-            </h2>
+            <TextScrollAnimation
+              text="Why Ambitious Brands Choose AglowX"
+              highlightText="AglowX"
+              variant="v1"
+              className="font-display text-4xl sm:text-6xl md:text-7xl font-bold text-white tracking-tight uppercase justify-start"
+            />
           </div>
           <p className="max-w-md text-white/60 font-sans text-sm leading-relaxed font-light">
             We combine high-end aesthetic design with technical precision to deliver memorable experiences that drive real business impact.

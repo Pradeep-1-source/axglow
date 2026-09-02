@@ -1,6 +1,7 @@
 import React from 'react';
 import { TESTIMONIALS_DATA } from '../data/content';
 import { Star, Quote } from 'lucide-react';
+import { TextScrollAnimation } from './ui/text-scroll-animation';
 
 export const TestimonialsMarquee: React.FC = () => {
   // Duplicate array to achieve seamless infinite loop
@@ -19,12 +20,12 @@ export const TestimonialsMarquee: React.FC = () => {
           </span>
         </div>
 
-        <h2 className="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight uppercase">
-          Words from <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3BD8D9] via-[#8A46BB] to-[#FF5D93]">
-            Visionary Leaders
-          </span>
-        </h2>
+        <TextScrollAnimation
+          text="Words from Visionary Leaders"
+          highlightText="Leaders"
+          variant="v1"
+          className="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight uppercase justify-start"
+        />
       </div>
 
       {/* Infinite Marquee Track */}
